@@ -10,7 +10,9 @@
     "version:minor": "npm version minor",
     "version:major": "npm version major",
     "build": "tsc -b && vite build",
-    "deploy": "npm run build && gh-pages -d dist",
+    "deploy:patch": "npm version patch && npm run build && gh-pages -d dist",
+    "deploy:minor": "npm version minor && npm run build && gh-pages -d dist",
+    "deploy:major": "npm version major && npm run build && gh-pages -d dist",
     "lint": "eslint .",
     "preview": "vite preview"
   },
