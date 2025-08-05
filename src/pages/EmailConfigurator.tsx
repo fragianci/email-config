@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import pkg from "../../package.json";
 
 function EmailConfigurator() {
@@ -11,9 +11,6 @@ function EmailConfigurator() {
 Ne ho ancora per una decina di giorni ma vorrei portarmi avanti con la prenotazione.
 Potrei ritirarli all'asl di [LUOGO] ? Grazie`,
   });
-
-  const [imageSrc, setImageSrc] = useState<string>("");
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
