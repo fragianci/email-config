@@ -3,7 +3,6 @@ import pkg from "../../package.json";
 
 function EmailConfigurator() {
   const [isEditing, setIsEditing] = useState(false);
-  const [showPreview, setShowPreview] = useState(false);
   const [formData, setFormData] = useState({
     to: "farmaciacontinuita.chivasso@aslto4.piemonte.it",
     subject: "Oggetto di esempio",
@@ -24,36 +23,6 @@ Potrei ritirarli all'asl di [LUOGO] ? Grazie`,
 
   const toggleEdit = () => {
     setIsEditing(!isEditing);
-  };
-
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        if (event.target?.result) {
-          setImageSrc(event.target.result as string);
-        }
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const removeImage = () => {
-    setImageSrc("");
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
-    }
-  };
-
-  const openPreview = () => {
-    if (imageSrc) {
-      setShowPreview(true);
-    }
-  };
-
-  const closePreview = () => {
-    setShowPreview(false);
   };
 
   const setEmailToSend = () => {
