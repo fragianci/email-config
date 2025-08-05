@@ -1,12 +1,16 @@
 import React, { useState, useRef } from "react";
+import pkg from "../../package.json";
 
 function EmailConfigurator() {
   const [isEditing, setIsEditing] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
   const [formData, setFormData] = useState({
-    to: "esempio@email.com",
+    to: "farmaciacontinuita.chivasso@aslto4.piemonte.it",
     subject: "Oggetto di esempio",
-    body: "Testo dell’email di esempio...",
+    body: `Buongiorno mi servirebbero queste compresse [PASTIGLIE], uso orale. In allegato c'è il piano terapeutico
+
+Ne ho ancora per una decina di giorni ma vorrei portarmi avanti con la prenotazione.
+Potrei ritirarli all'asl di [LUOGO] ? Grazie`,
   });
 
   const [imageSrc, setImageSrc] = useState<string>("");
@@ -60,8 +64,10 @@ function EmailConfigurator() {
   };
 
   return (
-    <div className="max-w-xl mx-auto mt-10 p-6 bg-white rounded-2xl shadow-md space-y-4">
-      <h2 className="text-2xl font-bold mb-4">Invia Email</h2>
+    <div className="max-w-xl mx-5 mt-10 p-6 bg-white rounded-2xl shadow-md space-y-4">
+      <h2 className="text-2xl font-bold mb-4">
+        Invia Email <p className="text-sm">{pkg.version}</p>
+      </h2>
 
       <div className="space-y-4">
         {/* CAMPI EMAIL */}
@@ -112,43 +118,6 @@ function EmailConfigurator() {
             }`}
           ></textarea>
         </div>
-
-        {/* IMMAGINE */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Immagine
-          </label>
-          {imageSrc ? (
-            <div className="relative group">
-              <img
-                src={imageSrc}
-                alt="Anteprima"
-                className="w-full max-h-64 object-contain rounded-md border border-gray-300 cursor-pointer hover:opacity-80"
-                onClick={openPreview}
-              />
-              {isEditing && (
-                <button
-                  onClick={removeImage}
-                  className="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded hover:bg-red-600 transition"
-                >
-                  Elimina
-                </button>
-              )}
-            </div>
-          ) : (
-            <p className="text-gray-400 italic">Nessuna immagine selezionata</p>
-          )}
-
-          {isEditing && (
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleImageChange}
-              ref={fileInputRef}
-              className="mt-2 border border-gray-600 p-4 rounded-lg"
-            />
-          )}
-        </div>
       </div>
 
       {/* BOTTONI */}
@@ -177,28 +146,6 @@ function EmailConfigurator() {
           </>
         )}
       </div>
-
-      {/* MODALE DI PREVIEW */}
-      {showPreview && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70"
-          onClick={closePreview}
-        >
-          <div className="relative max-w-3xl w-full p-4">
-            <img
-              src={imageSrc}
-              alt="Preview"
-              className="max-h-[80vh] mx-auto rounded shadow-lg"
-            />
-            <button
-              onClick={closePreview}
-              className="absolute top-4 right-4 text-white bg-black/60 hover:bg-black/80 px-3 py-1 rounded text-sm"
-            >
-              X
-            </button>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
