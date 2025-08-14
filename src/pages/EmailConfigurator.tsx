@@ -4,12 +4,9 @@ import pkg from "../../package.json";
 function EmailConfigurator() {
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
-    to: "farmaciacontinuita.chivasso@aslto4.piemonte.it",
-    subject: "Oggetto di esempio",
-    body: `Buongiorno mi servirebbero queste compresse [PASTIGLIE], uso orale. In allegato c'è il piano terapeutico
-
-Ne ho ancora per una decina di giorni ma vorrei portarmi avanti con la prenotazione.
-Potrei ritirarli all'asl di [LUOGO] ? Grazie`,
+    to: "",
+    subject: "",
+    body: "",
   });
   const [formDataBeforeEditing, setformDataBeforeEditing] = useState({
     to: "",
@@ -140,39 +137,41 @@ Potrei ritirarli all'asl di [LUOGO] ? Grazie`,
             </div>
           </>
         ) : (
-          <>
+          <div className="flex flex-col gap-3 sm:gap-5">
             <div className="w-full flex justify-end">
               <button
                 onClick={setEmailToSend}
-                className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition mb-5"
+                className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition  w-full sm:w-auto"
               >
                 Prepara
               </button>
             </div>
-            <div className="w-full flex justify-end gap-5">
+            <div className="w-full flex flex-col sm:flex-row sm:justify-end gap-3 sm:gap-5">
               <button
-                className="bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600 transition"
+                className="bg-yellow-500 text-white px-4 py-3 rounded-md hover:bg-yellow-600 transition w-full sm:w-auto"
                 onClick={readFromClipboard}
               >
                 Importa dalla clipboard
               </button>
+
               <button
                 onClick={createJson}
-                className="bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600 transition"
+                className="bg-yellow-500 text-white px-4 py-3 rounded-md hover:bg-yellow-600 transition w-full sm:w-auto"
               >
                 Crea il JSON
               </button>
+
               <button
                 onClick={() => {
                   setformDataBeforeEditing(formData);
                   toggleEdit();
                 }}
-                className="bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600 transition"
+                className="bg-yellow-500 text-white px-4 py-3 rounded-md hover:bg-yellow-600 transition w-full sm:w-auto"
               >
                 Modifica
               </button>
             </div>
-          </>
+          </div>
         )}
       </div>
     </div>
