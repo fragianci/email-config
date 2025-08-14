@@ -11,6 +11,11 @@ function EmailConfigurator() {
 Ne ho ancora per una decina di giorni ma vorrei portarmi avanti con la prenotazione.
 Potrei ritirarli all'asl di [LUOGO] ? Grazie`,
   });
+  const [formDataBeforeEditing, setformDataBeforeEditing] = useState({
+    to: "",
+    subject: "",
+    body: "",
+  });
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -22,6 +27,35 @@ Potrei ritirarli all'asl di [LUOGO] ? Grazie`,
     setIsEditing(!isEditing);
   };
 
+  const cancelEdit = () => {
+    setFormData(formDataBeforeEditing);
+    toggleEdit();
+  };
+
+  const readFromClipboard = async () => {
+    try {
+      const text = await navigator.clipboard.readText();
+      const objectCopied = JSON.parse(text);
+      setFormData(objectCopied);
+    } catch (err) {
+      console.error("Errore nella lettura dalla clipboard:", err);
+      alert(
+        "Non riesco a leggere gli appunti. Assicurati di aver dato i permessi o di aver copiato correttamente i dati."
+      );
+    }
+  };
+
+  const createJson = () => {
+    const jsonString = JSON.stringify(formData);
+    navigator.clipboard.writeText(jsonString);
+    // .then(() => {
+    //   alert("JSON copiato negli appunti!");
+    // })
+    // .catch((err) => {
+    //   console.error("Errore nella copia:", err);
+    // });
+  };
+
   const setEmailToSend = () => {
     const mailtoLink = `mailto:${formData.to}?subject=${encodeURIComponent(
       formData.subject
@@ -30,7 +64,7 @@ Potrei ritirarli all'asl di [LUOGO] ? Grazie`,
   };
 
   return (
-    <div className="max-w-xl mx-5 mt-10 p-6 bg-white rounded-2xl shadow-md space-y-4">
+    <div className="w-xl mx-5 mt-10 p-6 bg-white rounded-2xl shadow-md space-y-4 h-min">
       <h2 className="text-2xl font-bold mb-4">
         Invia Email <p className="text-sm">{pkg.version}</p>
       </h2>
@@ -87,28 +121,57 @@ Potrei ritirarli all'asl di [LUOGO] ? Grazie`,
       </div>
 
       {/* BOTTONI */}
-      <div className="flex justify-end space-x-2 mt-4">
+      <div className="row space-x-2 mt-4">
         {isEditing ? (
-          <button
-            onClick={toggleEdit}
-            className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition"
-          >
-            Salva
-          </button>
+          <>
+            <div className="w-full flex justify-end gap-5">
+              <button
+                onClick={cancelEdit}
+                className="bg-gray-400 text-white px-4 py-2 rounded-md hover:bg-gray-600 transition"
+              >
+                Annulla
+              </button>
+              <button
+                onClick={toggleEdit}
+                className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition"
+              >
+                Salva
+              </button>
+            </div>
+          </>
         ) : (
           <>
-            <button
-              onClick={toggleEdit}
-              className="bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600 transition"
-            >
-              Modifica
-            </button>
-            <button
-              onClick={setEmailToSend}
-              className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition"
-            >
-              Prepara
-            </button>
+            <div className="w-full flex justify-end">
+              <button
+                onClick={setEmailToSend}
+                className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition mb-5"
+              >
+                Prepara
+              </button>
+            </div>
+            <div className="w-full flex justify-end gap-5">
+              <button
+                className="bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600 transition"
+                onClick={readFromClipboard}
+              >
+                Importa dalla clipboard
+              </button>
+              <button
+                onClick={createJson}
+                className="bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600 transition"
+              >
+                Crea il JSON
+              </button>
+              <button
+                onClick={() => {
+                  setformDataBeforeEditing(formData);
+                  toggleEdit();
+                }}
+                className="bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600 transition"
+              >
+                Modifica
+              </button>
+            </div>
           </>
         )}
       </div>
