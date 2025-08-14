@@ -148,6 +148,15 @@ function EmailConfigurator() {
             </div>
             <div className="w-full flex flex-col sm:flex-row sm:justify-end gap-3 sm:gap-5">
               <button
+                onClick={() => {
+                  setformDataBeforeEditing(formData);
+                  toggleEdit();
+                }}
+                className="bg-yellow-500 text-white px-4 py-3 rounded-md hover:bg-yellow-600 transition w-full sm:w-auto"
+              >
+                Modifica
+              </button>
+              <button
                 className="bg-yellow-500 text-white px-4 py-3 rounded-md hover:bg-yellow-600 transition w-full sm:w-auto"
                 onClick={readFromClipboard}
               >
@@ -160,15 +169,11 @@ function EmailConfigurator() {
               >
                 Crea il JSON
               </button>
-
               <button
-                onClick={() => {
-                  setformDataBeforeEditing(formData);
-                  toggleEdit();
-                }}
-                className="bg-yellow-500 text-white px-4 py-3 rounded-md hover:bg-yellow-600 transition w-full sm:w-auto"
+                onClick={() => setFormData({ to: "", subject: "", body: "" })}
+                className="bg-red-500 text-white px-4 py-3 rounded-md hover:bg-yellow-600 transition w-full sm:w-auto"
               >
-                Modifica
+                Pulisci Tutto
               </button>
             </div>
           </div>
